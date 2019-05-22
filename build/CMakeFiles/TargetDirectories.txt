@@ -1,0 +1,10 @@
+/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/rebuild_cache.dir
+/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/edit_cache.dir
+/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/info.dir
+/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/strip_comments.dir
+/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/run.dir
+/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir
+/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/release.dir
+/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/runclean.dir
+/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/debug.dir
+/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/distclean.dir
