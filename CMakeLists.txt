@@ -17,10 +17,9 @@ SET(TARGET "main")
 # page of the documentation.
 SET(TARGET_SRC
   main.cc
-  make_grid.cpp
-  make_grid.h
   util.h
   Problem.h
+  Problem.cpp
   )
 
 # Usually, you will not need to modify anything beyond this point...
