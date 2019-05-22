@@ -7,8 +7,8 @@
 	return 0;
 }*/
 
+#include "problem.h"
 #include "util.h"
-#include "Problem.h"
 
 int main ()
 {

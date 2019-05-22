@@ -18,8 +18,8 @@ SET(TARGET "main")
 SET(TARGET_SRC
   main.cc
   util.h
-  Problem.h
-  Problem.cc	
+  problem.h
+  problem.cc	
   )
 
 # Usually, you will not need to modify anything beyond this point...
