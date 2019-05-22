@@ -214,6 +214,33 @@ distclean/fast:
 	$(MAKE) -f CMakeFiles/distclean.dir/build.make CMakeFiles/distclean.dir/build
 .PHONY : distclean/fast
 
+Problem.o: Problem.cc.o
+
+.PHONY : Problem.o
+
+# target to build an object file
+Problem.cc.o:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/Problem.cc.o
+.PHONY : Problem.cc.o
+
+Problem.i: Problem.cc.i
+
+.PHONY : Problem.i
+
+# target to preprocess a source file
+Problem.cc.i:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/Problem.cc.i
+.PHONY : Problem.cc.i
+
+Problem.s: Problem.cc.s
+
+.PHONY : Problem.s
+
+# target to generate assembly for a file
+Problem.cc.s:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/Problem.cc.s
+.PHONY : Problem.cc.s
+
 main.o: main.cc.o
 
 .PHONY : main.o
@@ -241,33 +268,6 @@ main.cc.s:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cc.s
 .PHONY : main.cc.s
 
-make_grid.o: make_grid.cpp.o
-
-.PHONY : make_grid.o
-
-# target to build an object file
-make_grid.cpp.o:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/make_grid.cpp.o
-.PHONY : make_grid.cpp.o
-
-make_grid.i: make_grid.cpp.i
-
-.PHONY : make_grid.i
-
-# target to preprocess a source file
-make_grid.cpp.i:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/make_grid.cpp.i
-.PHONY : make_grid.cpp.i
-
-make_grid.s: make_grid.cpp.s
-
-.PHONY : make_grid.s
-
-# target to generate assembly for a file
-make_grid.cpp.s:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/make_grid.cpp.s
-.PHONY : make_grid.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -284,12 +284,12 @@ help:
 	@echo "... runclean"
 	@echo "... debug"
 	@echo "... distclean"
+	@echo "... Problem.o"
+	@echo "... Problem.i"
+	@echo "... Problem.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... make_grid.o"
-	@echo "... make_grid.i"
-	@echo "... make_grid.s"
 .PHONY : help
 
 

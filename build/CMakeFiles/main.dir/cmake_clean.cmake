@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/main.dir/main.cc.o"
-  "CMakeFiles/main.dir/make_grid.cpp.o"
+  "CMakeFiles/main.dir/Problem.cc.o"
   "main.pdb"
   "main"
 )

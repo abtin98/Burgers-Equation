@@ -1,5 +1,9 @@
 #include "Problem.h"
 
+Problem::Problem() :   fe (1), dof_handler (triangulation)
+{
+}
+
 void Problem::make_grid()
 {
 	GridGenerator::hyper_cube (triangulation);
@@ -7,9 +11,24 @@ void Problem::make_grid()
 	std::cout << "Grid generated!" << std::endl;
 }
 
+void Problem::setup_system()
+{
+	std::cout << "system is set up" << std::endl;
+}
+
 void Problem::assemble_system()
 {
 	std::cout << "yeet";
+}
+
+void Problem::solve()
+{
+	std::cout << "system is solved" << std::endl;
+}
+
+void Problem::output()
+{
+	std::cout << "Output saved." << std::endl;
 }
 
 void Problem::run()

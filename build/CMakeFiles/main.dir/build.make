@@ -81,40 +81,40 @@ CMakeFiles/main.dir/main.cc.o.provides: CMakeFiles/main.dir/main.cc.o.requires
 CMakeFiles/main.dir/main.cc.o.provides.build: CMakeFiles/main.dir/main.cc.o
 
 
-CMakeFiles/main.dir/make_grid.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/make_grid.cpp.o: ../make_grid.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/make_grid.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/main.dir/make_grid.cpp.o -c /home/abtinameri/Desktop/thesis/burgers/make_grid.cpp
+CMakeFiles/main.dir/Problem.cc.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/Problem.cc.o: ../Problem.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/Problem.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/main.dir/Problem.cc.o -c /home/abtinameri/Desktop/thesis/burgers/Problem.cc
 
-CMakeFiles/main.dir/make_grid.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/make_grid.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/abtinameri/Desktop/thesis/burgers/make_grid.cpp > CMakeFiles/main.dir/make_grid.cpp.i
+CMakeFiles/main.dir/Problem.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/Problem.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/abtinameri/Desktop/thesis/burgers/Problem.cc > CMakeFiles/main.dir/Problem.cc.i
 
-CMakeFiles/main.dir/make_grid.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/make_grid.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/abtinameri/Desktop/thesis/burgers/make_grid.cpp -o CMakeFiles/main.dir/make_grid.cpp.s
+CMakeFiles/main.dir/Problem.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/Problem.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/abtinameri/Desktop/thesis/burgers/Problem.cc -o CMakeFiles/main.dir/Problem.cc.s
 
-CMakeFiles/main.dir/make_grid.cpp.o.requires:
+CMakeFiles/main.dir/Problem.cc.o.requires:
 
-.PHONY : CMakeFiles/main.dir/make_grid.cpp.o.requires
+.PHONY : CMakeFiles/main.dir/Problem.cc.o.requires
 
-CMakeFiles/main.dir/make_grid.cpp.o.provides: CMakeFiles/main.dir/make_grid.cpp.o.requires
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/make_grid.cpp.o.provides.build
-.PHONY : CMakeFiles/main.dir/make_grid.cpp.o.provides
+CMakeFiles/main.dir/Problem.cc.o.provides: CMakeFiles/main.dir/Problem.cc.o.requires
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/Problem.cc.o.provides.build
+.PHONY : CMakeFiles/main.dir/Problem.cc.o.provides
 
-CMakeFiles/main.dir/make_grid.cpp.o.provides.build: CMakeFiles/main.dir/make_grid.cpp.o
+CMakeFiles/main.dir/Problem.cc.o.provides.build: CMakeFiles/main.dir/Problem.cc.o
 
 
 # Object files for target main
 main_OBJECTS = \
 "CMakeFiles/main.dir/main.cc.o" \
-"CMakeFiles/main.dir/make_grid.cpp.o"
+"CMakeFiles/main.dir/Problem.cc.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
 main: CMakeFiles/main.dir/main.cc.o
-main: CMakeFiles/main.dir/make_grid.cpp.o
+main: CMakeFiles/main.dir/Problem.cc.o
 main: CMakeFiles/main.dir/build.make
 main: /home/abtinameri/deal.II.pre/lib/libdeal_II.g.so.9.0.1
 main: CMakeFiles/main.dir/link.txt
@@ -127,7 +127,7 @@ CMakeFiles/main.dir/build: main
 .PHONY : CMakeFiles/main.dir/build
 
 CMakeFiles/main.dir/requires: CMakeFiles/main.dir/main.cc.o.requires
-CMakeFiles/main.dir/requires: CMakeFiles/main.dir/make_grid.cpp.o.requires
+CMakeFiles/main.dir/requires: CMakeFiles/main.dir/Problem.cc.o.requires
 
 .PHONY : CMakeFiles/main.dir/requires
 

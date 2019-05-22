@@ -8,8 +8,10 @@
 }*/
 
 #include "util.h"
+#include "Problem.h"
 
 int main ()
 {
-
+	Problem problem;
+	problem.run();
 }

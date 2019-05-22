@@ -4,7 +4,6 @@ class Problem
 {
 	public:
 		Problem();
-		~Problem();
 		void run();
 	private:
 		void make_grid();

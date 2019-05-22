@@ -19,7 +19,7 @@ SET(TARGET_SRC
   main.cc
   util.h
   Problem.h
-  Problem.cpp
+  Problem.cc	
   )
 
 # Usually, you will not need to modify anything beyond this point...

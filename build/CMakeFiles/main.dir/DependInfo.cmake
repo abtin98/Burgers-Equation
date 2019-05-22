@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/abtinameri/Desktop/thesis/burgers/Problem.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/Problem.cc.o"
   "/home/abtinameri/Desktop/thesis/burgers/main.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/main.cc.o"
-  "/home/abtinameri/Desktop/thesis/burgers/make_grid.cpp" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/make_grid.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
