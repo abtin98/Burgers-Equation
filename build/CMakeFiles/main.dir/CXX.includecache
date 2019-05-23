@@ -6,19 +6,21 @@
 
 #IncludeRegexTransform: 
 
-/home/abtinameri/Desktop/thesis/burgers/Problem.cc
-Problem.h
-/home/abtinameri/Desktop/thesis/burgers/Problem.h
-
-/home/abtinameri/Desktop/thesis/burgers/Problem.h
-util.h
-/home/abtinameri/Desktop/thesis/burgers/util.h
-
 /home/abtinameri/Desktop/thesis/burgers/main.cc
+problem.h
+/home/abtinameri/Desktop/thesis/burgers/problem.h
 util.h
 /home/abtinameri/Desktop/thesis/burgers/util.h
-Problem.h
-/home/abtinameri/Desktop/thesis/burgers/Problem.h
+
+/home/abtinameri/Desktop/thesis/burgers/problem.cc
+problem.h
+/home/abtinameri/Desktop/thesis/burgers/problem.h
+util.h
+/home/abtinameri/Desktop/thesis/burgers/util.h
+
+/home/abtinameri/Desktop/thesis/burgers/problem.h
+util.h
+/home/abtinameri/Desktop/thesis/burgers/util.h
 
 /home/abtinameri/Desktop/thesis/burgers/util.h
 deal.II/grid/tria.h
@@ -29,7 +31,11 @@ deal.II/grid/tria_iterator.h
 -
 deal.II/grid/grid_generator.h
 -
-deal.II/grid/grid_out.h
+deal.II/dofs/dof_handler.h
+-
+deal.II/dofs/dof_accessor.h
+-
+deal.II/dofs/dof_tools.h
 -
 deal.II/fe/fe_q.h
 -
@@ -14660,6 +14666,32 @@ deal.II/base/exceptions.h
 vector
 -
 
+/home/abtinameri/deal.II.pre/include/deal.II/dofs/dof_tools.h
+deal.II/base/config.h
+-
+deal.II/base/exceptions.h
+-
+deal.II/base/index_set.h
+-
+deal.II/base/point.h
+-
+deal.II/lac/constraint_matrix.h
+-
+deal.II/dofs/dof_handler.h
+-
+deal.II/fe/component_mask.h
+-
+deal.II/hp/dof_handler.h
+-
+vector
+-
+set
+-
+map
+-
+ostream
+-
+
 /home/abtinameri/deal.II.pre/include/deal.II/dofs/function_map.h
 deal.II/base/config.h
 -
@@ -14912,18 +14944,6 @@ deal.II/grid/tria.h
 array
 -
 map
--
-
-/home/abtinameri/deal.II.pre/include/deal.II/grid/grid_out.h
-deal.II/base/config.h
--
-deal.II/base/exceptions.h
--
-deal.II/base/point.h
--
-deal.II/base/data_out_base.h
--
-string
 -
 
 /home/abtinameri/deal.II.pre/include/deal.II/grid/tria.h

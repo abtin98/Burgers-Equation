@@ -12,6 +12,7 @@
 
 int main ()
 {
+	deallog.depth_console (2);
 	Problem problem;
 	problem.run();
 }
