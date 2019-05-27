@@ -27,7 +27,17 @@ void Problem::setup_system()
 void Problem::assemble_system()
 {
 	QGaussLobatto<1> quadrature_formula(4);
-	FEValues<1> fe_values (fe, quadrature_formula, update_values | update_gradients | update_JxW_values);
+	QGaussLobatto<0> face_quadrature_formula(2);
+
+	const UpdateFlags update_flags = update_values
+									| update_gradients
+									| update_JxW_values,
+									face_update_flags = update_values,
+									neighbor_face_update_flags = update_values;
+
+	FEValues<1> fe_values (fe, quadrature_formula, update_flags);
+	FEFaceValues<1> fe_face_values (fe,face_quadrature_formula,face_update_flags);
+	FEFaceValues<1> fe_neighbor_face_values (fe, face_quadrature_formula, neighbor_face_update_flags);
 	const unsigned int dofs_per_cell = fe.dofs_per_cell;
 	const unsigned int n_q_points = quadrature_formula.size();
 	FullMatrix<double> cell_mass_matrix(dofs_per_cell,dofs_per_cell);
