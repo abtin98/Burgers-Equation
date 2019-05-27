@@ -11,7 +11,8 @@
 #include <deal.II/dofs/dof_accessor.h>
 #include <deal.II/dofs/dof_tools.h>
 
-#include <deal.II/fe/fe_q.h>
+#include <deal.II/fe/fe_dgq.h>
+#include <deal.II/fe/fe_dgp.h>
 
 #include <deal.II/fe/fe_values.h>
 
@@ -36,5 +37,12 @@
 using namespace dealii;
 
 Vector<double> RK4 (Vector<double> rhs);
+void invert_mass_matrix (const FullMatrix<double> &M, FullMatrix<double> &Minv) //compute inverse of a diagonal mass matrix
+{
+	for (unsigned int i = 0; i < M.n_rows(); ++i)
+	{
+		Minv(i,i) = 1./M(i,i);
+	}
+}
 
 #endif

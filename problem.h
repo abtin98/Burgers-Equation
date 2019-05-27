@@ -13,7 +13,7 @@ class Problem
 		void output();
 
 		Triangulation<1> triangulation;
-		FE_Q<1> fe;
+		FE_DGQ<1> fe;
 		DoFHandler<1> dof_handler;
 
 		SparsityPattern sparsity_pattern;

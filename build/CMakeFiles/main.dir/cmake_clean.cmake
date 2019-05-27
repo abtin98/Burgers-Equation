@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/main.dir/main.cc.o"
+  "CMakeFiles/main.dir/util.cc.o"
   "CMakeFiles/main.dir/problem.cc.o"
+  "CMakeFiles/main.dir/parameters.cc.o"
   "main.pdb"
   "main"
 )

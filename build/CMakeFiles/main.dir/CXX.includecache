@@ -12,6 +12,14 @@ problem.h
 util.h
 /home/abtinameri/Desktop/thesis/burgers/util.h
 
+/home/abtinameri/Desktop/thesis/burgers/parameters.cc
+parameters.h
+/home/abtinameri/Desktop/thesis/burgers/parameters.h
+
+/home/abtinameri/Desktop/thesis/burgers/parameters.h
+util.h
+/home/abtinameri/Desktop/thesis/burgers/util.h
+
 /home/abtinameri/Desktop/thesis/burgers/problem.cc
 problem.h
 /home/abtinameri/Desktop/thesis/burgers/problem.h
@@ -19,6 +27,10 @@ util.h
 /home/abtinameri/Desktop/thesis/burgers/util.h
 
 /home/abtinameri/Desktop/thesis/burgers/problem.h
+util.h
+/home/abtinameri/Desktop/thesis/burgers/util.h
+
+/home/abtinameri/Desktop/thesis/burgers/util.cc
 util.h
 /home/abtinameri/Desktop/thesis/burgers/util.h
 
@@ -37,7 +49,9 @@ deal.II/dofs/dof_accessor.h
 -
 deal.II/dofs/dof_tools.h
 -
-deal.II/fe/fe_q.h
+deal.II/fe/fe_dgq.h
+-
+deal.II/fe/fe_dgp.h
 -
 deal.II/fe/fe_values.h
 -
@@ -382,6 +396,22 @@ deal.II/base/subscriptor.h
 deal.II/base/point.h
 -
 memory
+-
+vector
+-
+
+/home/abtinameri/deal.II.pre/include/deal.II/base/polynomial_space.h
+deal.II/base/config.h
+-
+deal.II/base/exceptions.h
+-
+deal.II/base/tensor.h
+-
+deal.II/base/point.h
+-
+deal.II/base/polynomial.h
+-
+deal.II/base/smartpointer.h
 -
 vector
 -
@@ -14774,6 +14804,24 @@ deal.II/fe/fe_update_flags.h
 string
 -
 vector
+-
+
+/home/abtinameri/deal.II.pre/include/deal.II/fe/fe_dgp.h
+deal.II/base/config.h
+-
+deal.II/base/polynomial_space.h
+-
+deal.II/fe/fe_poly.h
+-
+
+/home/abtinameri/deal.II.pre/include/deal.II/fe/fe_dgq.h
+deal.II/base/config.h
+-
+deal.II/base/tensor_product_polynomials.h
+-
+deal.II/base/thread_management.h
+-
+deal.II/fe/fe_poly.h
 -
 
 /home/abtinameri/deal.II.pre/include/deal.II/fe/fe_poly.h

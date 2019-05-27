@@ -18,15 +18,13 @@ SET(TARGET "main")
 SET(TARGET_SRC
   main.cc
   util.h
+  util.cc
   problem.h
   problem.cc
-  equations.cc
   equations.h
-  numericalFlux.h
-  numericalFlux.cc
-  equations.h
-  equations.cc
-  util.cc	
+  #equations.cc
+  #parameters.h
+  parameters.cc	
   )
 
 # Usually, you will not need to modify anything beyond this point...

@@ -2,8 +2,8 @@
 #define EQUATIONS
 
 #include "util.h"
+#include "parameters.h"
 
-//template <typename InputVector>
 class Equations
 {
 public:
@@ -11,7 +11,9 @@ public:
 								 const Vector<double> &uplus,
 								 const Vector<double> &uminus,
 								 const double alpha,
-								 std::array<double, 1> &normal_flux);
+								 std::array<double, 1> &normal_flux,
+								 Parameters parameters);
+	void compute_flux (const Vector<double> &u, Vector<double> &flux);
 
 private:
 
