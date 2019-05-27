@@ -19,7 +19,14 @@ SET(TARGET_SRC
   main.cc
   util.h
   problem.h
-  problem.cc	
+  problem.cc
+  equations.cc
+  equations.h
+  numericalFlux.h
+  numericalFlux.cc
+  equations.h
+  equations.cc
+  util.cc	
   )
 
 # Usually, you will not need to modify anything beyond this point...

@@ -1,3 +1,6 @@
+#ifndef UTIL
+#define UTIL
+
 #include <deal.II/grid/tria.h>
 #include <deal.II/grid/tria_accessor.h>
 #include <deal.II/grid/tria_iterator.h>
@@ -31,3 +34,7 @@
 #include <fstream>
 #include <cmath>
 using namespace dealii;
+
+Vector<double> RK4 (Vector<double> rhs);
+
+#endif

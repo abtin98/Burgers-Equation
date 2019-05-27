@@ -6,7 +6,7 @@ class Problem
 		Problem();
 		void run();
 	private:
-		void make_grid();
+		void make_grid(int n_refinements);
 		void setup_system();
 		void assemble_system();
 		void solve();

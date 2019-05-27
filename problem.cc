@@ -1,14 +1,14 @@
 #include "problem.h"
 #include "util.h"
 
-Problem::Problem() :   fe (1), dof_handler (triangulation) //fe(1) indicates polynomial of degree 1.
+Problem::Problem() :   fe (2), dof_handler (triangulation) //fe(1) indicates polynomial of degree 1.
 {
 }
 
-void Problem::make_grid()
+void Problem::make_grid(int n_refinements)
 {
 	GridGenerator::hyper_cube (triangulation,0,10);
-	triangulation.refine_global (6); //can change number
+	triangulation.refine_global (n_refinements);
 	std::cout << "Number of active cells: " << triangulation.n_active_cells() << std::endl;
 }
 
@@ -26,7 +26,7 @@ void Problem::setup_system()
 
 void Problem::assemble_system()
 {
-	QGauss<1> quadrature_formula(2);
+	QGaussLobatto<1> quadrature_formula(2);
 	FEValues<1> fe_values (fe, quadrature_formula, update_values | update_gradients | update_JxW_values);
 	const unsigned int dofs_per_cell = fe.dofs_per_cell;
 	const unsigned int n_q_points = quadrature_formula.size();
@@ -66,14 +66,10 @@ void Problem::assemble_system()
 		}
 
 	}
-
 	std::map<types::global_dof_index,double> boundary_values;
 	VectorTools::interpolate_boundary_values(dof_handler,0,Functions::ZeroFunction<1>(),boundary_values);
-	for (auto const& iterator : boundary_values)
-	{
-		std::cout << iterator << std::endl;
-	}
 	MatrixTools::apply_boundary_values(boundary_values,system_matrix,solution,system_rhs);
+	//system_rhs(dof_handler.n_dofs()-1) = 0;
 
 }
 
@@ -82,6 +78,10 @@ void Problem::solve()
 	SolverControl solver_control (1000, 1e-12);
 	SolverCG<> solver(solver_control);
 	solver.solve(system_matrix,solution,system_rhs,PreconditionIdentity());
+	for (unsigned int i = 0; i < dof_handler.n_dofs(); ++i)
+	{
+		std::cout << solution(i) << std::endl;
+	}
 }
 
 void Problem::output()
@@ -96,7 +96,8 @@ void Problem::output()
 
 void Problem::run()
 {
-	make_grid();
+	int n_refinements = 5;
+	make_grid(n_refinements);
 	setup_system();
 	assemble_system();
 	solve();
