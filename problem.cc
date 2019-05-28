@@ -1,18 +1,21 @@
 #include "problem.h"
 #include "util.h"
 
-Problem::Problem() :   fe (3), dof_handler (triangulation) //fe(1) indicates polynomial of degree 1.
+template <int dim>
+Problem<dim>::Problem() :   fe (3), dof_handler (triangulation) //fe(1) indicates polynomial of degree 1.
 {
 }
 
-void Problem::make_grid(int n_refinements)
+template <int dim>
+void Problem<dim>::make_grid(int n_refinements)
 {
 	GridGenerator::hyper_cube (triangulation,0,1);
 	triangulation.refine_global (n_refinements);
 	std::cout << "Number of active cells: " << triangulation.n_active_cells() << std::endl;
 }
 
-void Problem::setup_system()
+template <int dim>
+void Problem<dim>::setup_system()
 {
 	dof_handler.distribute_dofs(fe);
 	std::cout << "Number of degrees of freedom: " << dof_handler.n_dofs() << std::endl;
@@ -24,10 +27,11 @@ void Problem::setup_system()
 	system_rhs.reinit(dof_handler.n_dofs());
 }
 
-void Problem::assemble_system()
+template <int dim>
+void Problem<dim>::assemble_system()
 {
-	QGaussLobatto<1> quadrature_formula(4);
-	QGaussLobatto<0> face_quadrature_formula(2);
+	QGaussLobatto<dim> quadrature_formula(4);
+	QGaussLobatto<dim-1> face_quadrature_formula(2);
 
 	const UpdateFlags update_flags = update_values
 									| update_gradients
@@ -35,9 +39,9 @@ void Problem::assemble_system()
 									face_update_flags = update_values,
 									neighbor_face_update_flags = update_values;
 
-	FEValues<1> fe_values (fe, quadrature_formula, update_flags);
-	FEFaceValues<1> fe_face_values (fe,face_quadrature_formula,face_update_flags);
-	FEFaceValues<1> fe_neighbor_face_values (fe, face_quadrature_formula, neighbor_face_update_flags);
+	FEValues<dim> fe_values (fe, quadrature_formula, update_flags);
+	FEFaceValues<dim> fe_face_values (fe,face_quadrature_formula,face_update_flags);
+	FEFaceValues<dim> fe_neighbor_face_values (fe, face_quadrature_formula, neighbor_face_update_flags);
 	const unsigned int dofs_per_cell = fe.dofs_per_cell;
 	const unsigned int n_q_points = quadrature_formula.size();
 	FullMatrix<double> cell_mass_matrix(dofs_per_cell,dofs_per_cell);
@@ -93,13 +97,14 @@ void Problem::assemble_system()
 
 	}
 	std::map<types::global_dof_index,double> boundary_values;
-	VectorTools::interpolate_boundary_values(dof_handler,0,Functions::ZeroFunction<1>(),boundary_values);
+	VectorTools::interpolate_boundary_values(dof_handler,0,Functions::ZeroFunction<dim>(),boundary_values);
 	MatrixTools::apply_boundary_values(boundary_values,system_matrix,solution,system_rhs);
 	//system_rhs(dof_handler.n_dofs()-1) = 0;
 
 }
 
-void Problem::solve()
+template <int dim>
+void Problem<dim>::solve()
 {
 	SolverControl solver_control (1000, 1e-12);
 	SolverCG<> solver(solver_control);
@@ -110,7 +115,8 @@ void Problem::solve()
 	}
 }
 
-void Problem::output()
+template <int dim>
+void Problem<dim>::output()
 {
 	DataOut<1> data_out;
 	data_out.attach_dof_handler(dof_handler);
@@ -120,7 +126,8 @@ void Problem::output()
 	data_out.write_vtu(output);
 }
 
-void Problem::run()
+template <int dim>
+void Problem<dim>::run()
 {
 	int n_refinements = 0;
 	make_grid(n_refinements);

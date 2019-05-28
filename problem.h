@@ -1,5 +1,6 @@
 #include "util.h"
 
+template <int dim>
 class Problem
 {
 	public:
@@ -12,9 +13,9 @@ class Problem
 		void solve();
 		void output();
 
-		Triangulation<1> triangulation;
-		FE_DGQ<1> fe;
-		DoFHandler<1> dof_handler;
+		Triangulation<dim> triangulation;
+		FE_DGQ<dim> fe;
+		DoFHandler<dim> dof_handler;
 
 		SparsityPattern sparsity_pattern;
 		SparseMatrix<double> system_matrix;
