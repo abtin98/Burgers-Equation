@@ -1,3 +1,6 @@
+#ifndef CONS_LAW
+#define CONS_LAW
+
 #include "util.h"
 
 template <int dim>
@@ -37,3 +40,4 @@ template <int dim>
     Parameters::AllParameters<dim>  parameters;
     ConditionalOStream              verbose_cout;
   };
+#endif

@@ -29,7 +29,7 @@
 #include <deal.II/lac/trilinos_sparse_matrix.h>
 #include <deal.II/lac/trilinos_precondition.h>
 #include <deal.II/lac/trilinos_solver.h>
-//#include <Sacado.hpp>
+#include <Sacado.hpp>
 #include <iostream>
 #include <fstream>
 #include <vector>

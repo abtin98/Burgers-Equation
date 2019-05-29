@@ -17,14 +17,13 @@ SET(TARGET "main")
 # page of the documentation.
 SET(TARGET_SRC
   main.cc
-  #util.h
-  #util.cc
-  #problem.h
-  #problem.cc
-  #equations.h
-  #equations.cc
-  #parameters.h
-  #parameters.cc	
+  util.h
+  util.cc
+  parameters.h	
+  burgersEquation.h
+  burgersEquation.cc
+  conservationLaw.h
+  conservationLaw.cc
   )
 
 # Usually, you will not need to modify anything beyond this point...

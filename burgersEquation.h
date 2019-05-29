@@ -1,3 +1,5 @@
+#ifndef BURGERS_EQN
+#define BURGERS_EQN
 #include "util.h"
 
 template <int dim>
@@ -35,3 +37,4 @@ template <int dim>
                     const Vector<double> &boundary_values,
                     const DataVector     &Wminus);
   };
+#endif
