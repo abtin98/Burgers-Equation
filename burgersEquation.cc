@@ -2,8 +2,7 @@
 #include "burgersEquation.h"
 
 template <int dim>
-    template <typename InputVector>
-    static
+    template <typename InputVector> //removed static
     void BurgersEquation<dim>::compute_flux_matrix (const InputVector &W,
                               std::array <std::array
                               <typename InputVector::value_type, dim>,
@@ -15,8 +14,7 @@ template <int dim>
         }
     }
 template<int dim>
-    template <typename InputVector>
-    static
+    template <typename InputVector> //removed static
     void BurgersEquation<dim>::numerical_normal_flux (const Tensor<1,dim>                &normal,
                                 const InputVector                  &Wplus,
                                 const InputVector                  &Wminus,
@@ -40,8 +38,7 @@ template<int dim>
         }
     }
 template <int dim>
-    template <typename DataVector>
-    static
+    template <typename DataVector> //removed static
     void
     BurgersEquation<dim>::compute_Wminus (const BoundaryKind  (&boundary_kind)[n_components],
                     const Tensor<1,dim>  &normal_vector,
