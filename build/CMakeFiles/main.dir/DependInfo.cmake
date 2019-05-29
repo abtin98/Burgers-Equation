@@ -5,9 +5,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/abtinameri/Desktop/thesis/burgers/main.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/main.cc.o"
-  "/home/abtinameri/Desktop/thesis/burgers/parameters.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/parameters.cc.o"
-  "/home/abtinameri/Desktop/thesis/burgers/problem.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/problem.cc.o"
-  "/home/abtinameri/Desktop/thesis/burgers/util.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/util.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
