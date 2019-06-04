@@ -20,8 +20,8 @@ int main ()
 */
 
 #include "util.h"
-#include "burgersEquation.h"
-#include "parameters.h"
+//#include "burgersEquation.h"
+//#include "parameters.h"
 #include "conservationLaw.h"
 
 int main (int argc, char *argv[])
@@ -43,7 +43,7 @@ int main (int argc, char *argv[])
           std::cout << "Usage:" << argv[0] << " input_file" << std::endl;
           std::exit(1);
         }
-      Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, ::numbers::invalid_unsigned_int);
+      Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, numbers::invalid_unsigned_int);
       ConservationLaw<dim> cons (argv[1]);
       cons.run ();
     }
