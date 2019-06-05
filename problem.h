@@ -31,6 +31,18 @@ private:
 	Parameters parameters;
 	Equations<dim> burgers_equation;
 
+
+	std::string variables = "x";
+	std::map<std::string,double> constants;
+	constants["pi"] = 3.14;
+	std::string experession = "sin(2*pi*x) + 0.01";
+	FunctionParser<dim> initial_condition(1);
+	initial_condition.initialize(variables,
+	              	  	  	  	 expression,
+								 constants);
+
+	double compute_energy(const Vector<double> &u);
+
 	void assemble_grid();
 	void compute_inverse_mass_matrix(const FullMatrix<double> &M, FullMatrix<double> &M_inv);
 	void compute_rhs_vector();
@@ -41,7 +53,7 @@ private:
 							const FEFaceValues<dim>     &fe_v_neighbor,
 							const std::vector<types::global_dof_index> &dof_indices,
 							const std::vector<types::global_dof_index> &neighbour_dof_indices);
-	void perform_runge_kutta_45(Vector<double> right_hand_side);
+	void perform_runge_kutta_45();
 };
 
 #endif

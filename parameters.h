@@ -21,7 +21,11 @@ public:
 		gauss_lobatto
 	};
 
-	int polynomial_order_dg;
+	int polynomial_order_dg = 7;
+
+	int quadrature_degree = 8;
+
+	int face_quadrature_degree = 8;
 };
 
 #endif

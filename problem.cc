@@ -5,10 +5,10 @@ template <int dim>
 Problem<dim>::Problem()
 :
 mapping(),
-fe (6),
+fe (parameters.polynomial_order_dg),
 dof_handler(triangulation),
-quadrature(7),
-face_quadrature(7)
+quadrature(parameters.quadrature_degree),
+face_quadrature(parameters.face_quadrature_degree)
 {
 
 }
@@ -45,6 +45,16 @@ template<int dim>
 void Problem<dim>::compute_rhs_vector()
 {
 	assemble_system();
+	Vector<double> sum_of_flux_and_num_flux;
+	sum_of_flux_and_num_flux = 0;
+	for (int i = 0; i<dim ;++i)
+	{
+		stiffness_matrix[i].vmult(sum_of_flux_and_num_flux,flux_vector[i],true);
+	}
+
+	sum_of_flux_and_num_flux -= rhs;
+
+	inverse_mass_matrix.vmult(rhs, sum_of_flux_and_num_flux);
 }
 
 template<int dim>
@@ -168,7 +178,7 @@ void Problem<dim>::assemble_face_term(const unsigned int          face_no,
  */
 
 template<int dim>
-void Problem<dim>::perform_runge_kutta_45(Vector<double> right_hand_side)
+void Problem<dim>::perform_runge_kutta_45()
 {
 
 	for (int n_iteration = 0; n_iteration < (parameters.final_time - parameters.initial_time)/parameters.delta_t ; ++n_iteration)
@@ -178,3 +188,19 @@ void Problem<dim>::perform_runge_kutta_45(Vector<double> right_hand_side)
 		current_solution = old_solution + rhs * parameters.delta_t;
 	}
 }
+
+template <int dim>
+double Problem<dim>::compute_energy(const Vector<double> &u) //need to loop over cells, current function won't work.
+{
+	Vector<double> product;
+	double energy {0};
+	mass_matrix.vmult(product, u);
+
+	for (int i = 0; i < u.size(); ++i)
+	{
+		energy += product[i]*u[i];
+	}
+	return energy;
+}
+
+template class Problem<1>;
