@@ -3,14 +3,17 @@
 
 #include "util.h"
 
-template <int dim>
-struct Parameters
+class Parameters
 {
+public:
 	double initial_time, final_time, delta_t;
 
-	Point<dim> corner_a, corner_b;
-
 	double delta_x;
+
+	const int n_refinements = 10;
+
+	const double left = 0.0;
+	const double right = 10.0;
 
 	enum quadrature_kind
 	{
