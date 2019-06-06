@@ -13,7 +13,7 @@ public:
 	const int n_refinements = 10;
 
 	const double left = 0.0;
-	const double right = 10.0;
+	const double right = 2.0;
 
 	enum quadrature_kind
 	{

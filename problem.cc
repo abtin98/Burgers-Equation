@@ -16,16 +16,39 @@ face_quadrature(parameters.face_quadrature_degree)
 template<int dim>
 void Problem<dim>::run()
 {
+	initialize_system();
 	assemble_grid();
 
 
 	perform_runge_kutta_45();
 }
 
+template <int dim>
+void Problem<dim>::initialize_system()
+{
+	//initial conditions
+	FunctionParser<dim> initial_condition;
+	std::string variables = "x";
+	std::map<std::string,double> constants;
+	constants["pi"] = numbers::PI;
+	std::string expression = "sin(pi*x) + 0.01";
+	initial_condition.initialize(variables,
+	              	  	  	  	 expression,
+								 constants);
+	VectorTools::interpolate(mapping, dof_handler, initial_condition, current_solution);
+	old_solution = current_solution;
+}
+
 template<int dim>
 void Problem<dim>::assemble_grid()
 {
 	GridGenerator::hyper_cube(triangulation,parameters.left,parameters.right);
+
+	std::vector<GridTools::PeriodicFacePair<typename Triangulation<dim>::cell_iterator> > matched_pairs;
+	GridTools::collect_periodic_faces(dof_handler, 0, 1, 0, matched_pairs );
+		triangulation.add_periodicity(matched_pairs);
+		DoFTools::make_periodicity_constraints <DoFHandler<dim>> (matched_pairs, );
+
 	triangulation.refine_global(parameters.n_refinements);
 	std::cout << "number of active cells: " << triangulation.n_active_cells() << std::endl;
 	GridTools::collect_periodic_faces(dof_handler, 0, 1, 0, );
@@ -56,6 +79,8 @@ void Problem<dim>::compute_rhs_vector()
 
 	inverse_mass_matrix.vmult(rhs, sum_of_flux_and_num_flux);
 }
+
+
 
 template<int dim>
 void Problem<dim>::assemble_system()
