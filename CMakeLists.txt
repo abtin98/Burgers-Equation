@@ -19,11 +19,12 @@ SET(TARGET_SRC
   main.cc
   util.h
   util.cc
-  parameters.h	
+  parameters.h
+  parameters.cc  
   burgersEquation.h
   burgersEquation.cc
-  conservationLaw.h
-  conservationLaw.cc
+  equations.h
+  equations.cc
   )
 
 # Usually, you will not need to modify anything beyond this point...
