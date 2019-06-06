@@ -18,7 +18,7 @@ public:
 
 	numerical_flux_type numFlux = energy_conserving;
 
-	void compute_flux_vector(const double &U,Vector<double> &flux);
+	void compute_flux_vector(const Vector<double> &U,std::vector<Vector<double>> &flux); //[component][index]
 
 	void compute_numerical_normal_flux(const Tensor<1,dim>             &normal,
             					const double                  &Uplus,

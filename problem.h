@@ -12,16 +12,17 @@ public:
 	void run();
 private:
 	Triangulation<dim> triangulation;
-	const MappingQ<dim> mapping;
+	const MappingQ1<dim> mapping;
 
 	FE_DGQ<dim> fe;
 	Vector<double> current_solution;
 	Vector<double> old_solution;
-	Vector<double> rhs;
-	FullMatrix<double> mass_matrix;
-	FullMatrix<double> inverse_mass_matrix;
-	std::array<FullMatrix, dim> stiffness_matrix;
-	std::array<Vector, dim> flux_vector;
+	Vector<double> global_rhs;
+
+	//we will compute these at the beginning and store them for later use.
+	std::vector < FullMatrix<double> > inverse_mass_matrix;
+	std::vector < std::vector < FullMatrix <double> > > stiffness_matrix; //a vector of n_active cells of dim stiffness matrices.
+
 
 	DoFHandler<dim> dof_handler;
 
@@ -31,17 +32,19 @@ private:
 	Parameters parameters;
 	Equations<dim> burgers_equation;
 
+	FEValues<dim> fe_values;
+	FEFaceValues<dim> fe_face_values;
+	FEFaceValues<dim> fe_neighbour_face_values;
+
 	double compute_energy(const Vector<double> &u);
 
 	void initialize_system();
 	void assemble_grid();
-	void compute_inverse_mass_matrix(const FullMatrix<double> &M, FullMatrix<double> &M_inv);
+	void compute_stiffness_and_inverse_mass_matrix();
 	void compute_rhs_vector();
-	void assemble_system();
-	void assemble_cell_term(const FEValues<dim> &fe_values, const std::vector<types::global_dof_index> &dofs_indices);
-	void assemble_face_term(const unsigned int               face_no,
-            				const FEFaceValues<dim>     &fe_v,
-							const FEFaceValues<dim>     &fe_v_neighbor,
+	void assemble_cell_term(int cell_index, const std::vector<types::global_dof_index> &dof_indices);
+	void assemble_face_term(int 										cell_index,
+							const unsigned int 						    face_no,
 							const std::vector<types::global_dof_index> &dof_indices,
 							const std::vector<types::global_dof_index> &neighbour_dof_indices);
 	void perform_runge_kutta_45();

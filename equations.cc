@@ -1,11 +1,15 @@
 #include "equations.h"
 
 template <int dim>
-void Equations<dim>::compute_flux_vector(const double &U,Vector<double> &flux)
+void Equations<dim>::compute_flux_vector(const Vector<double> &U,std::vector<Vector<double>> &flux)
 {
-	for (unsigned int i = 0; i < dim; ++i)
+	for (unsigned int component = 0; component < dim; ++component)
 	{
-		flux[i] = U*U/2.;
+		for(unsigned int i = 0; i< U.size(); ++i)
+		{
+			flux[component][i] = U[i]*U[i]/2.;
+		}
+
 	}
 }
 
