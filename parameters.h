@@ -3,29 +3,24 @@
 
 #include "util.h"
 
-class Parameters
+struct Parameters
 {
 public:
-	double initial_time, final_time, delta_t;
 
-	double delta_x;
+	double initial_time{0.0}, final_time{3.0}, delta_t{0.001};
 
-	const int n_refinements = 10;
+	double delta_x{0.1};
 
-	const double left = 0.0;
-	const double right = 2.0;
+	 int n_refinements{3};
 
-	enum quadrature_kind
-	{
-		gauss,
-		gauss_lobatto
-	};
+	 double left{0.0};
+	 double right{2.0};
 
-	int polynomial_order_dg = 7;
+	int polynomial_order_dg{4};
 
-	int quadrature_degree = 8;
+	int quadrature_degree{8};
 
-	int face_quadrature_degree = 8;
+	int face_quadrature_degree{8};
 };
 
 #endif

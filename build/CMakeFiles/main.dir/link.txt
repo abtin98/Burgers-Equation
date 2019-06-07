@@ -1,1 +1,1 @@
-/usr/bin/c++    -rdynamic  -rdynamic -fuse-ld=gold -pthread -ggdb CMakeFiles/main.dir/main.cc.o  -o main -Wl,-rpath,/home/abtinameri/deal.II.pre/lib /home/abtinameri/deal.II.pre/lib/libdeal_II.g.so.9.0.1 -lm -ldl -lrt 
+/usr/bin/c++    -rdynamic  -rdynamic -fuse-ld=gold -pthread -ggdb CMakeFiles/main.dir/main.cc.o CMakeFiles/main.dir/util.cc.o CMakeFiles/main.dir/parameters.cc.o CMakeFiles/main.dir/equations.cc.o CMakeFiles/main.dir/problem.cc.o  -o main -Wl,-rpath,/home/abtinameri/deal.II.pre/lib /home/abtinameri/deal.II.pre/lib/libdeal_II.g.so.9.0.1 -lm -ldl -lrt 

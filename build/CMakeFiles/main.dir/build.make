@@ -81,18 +81,122 @@ CMakeFiles/main.dir/main.cc.o.provides: CMakeFiles/main.dir/main.cc.o.requires
 CMakeFiles/main.dir/main.cc.o.provides.build: CMakeFiles/main.dir/main.cc.o
 
 
+CMakeFiles/main.dir/util.cc.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/util.cc.o: ../util.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/main.dir/util.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/main.dir/util.cc.o -c /home/abtinameri/Desktop/thesis/burgers/util.cc
+
+CMakeFiles/main.dir/util.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/util.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/abtinameri/Desktop/thesis/burgers/util.cc > CMakeFiles/main.dir/util.cc.i
+
+CMakeFiles/main.dir/util.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/util.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/abtinameri/Desktop/thesis/burgers/util.cc -o CMakeFiles/main.dir/util.cc.s
+
+CMakeFiles/main.dir/util.cc.o.requires:
+
+.PHONY : CMakeFiles/main.dir/util.cc.o.requires
+
+CMakeFiles/main.dir/util.cc.o.provides: CMakeFiles/main.dir/util.cc.o.requires
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/util.cc.o.provides.build
+.PHONY : CMakeFiles/main.dir/util.cc.o.provides
+
+CMakeFiles/main.dir/util.cc.o.provides.build: CMakeFiles/main.dir/util.cc.o
+
+
+CMakeFiles/main.dir/parameters.cc.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/parameters.cc.o: ../parameters.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/parameters.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/main.dir/parameters.cc.o -c /home/abtinameri/Desktop/thesis/burgers/parameters.cc
+
+CMakeFiles/main.dir/parameters.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/parameters.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/abtinameri/Desktop/thesis/burgers/parameters.cc > CMakeFiles/main.dir/parameters.cc.i
+
+CMakeFiles/main.dir/parameters.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/parameters.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/abtinameri/Desktop/thesis/burgers/parameters.cc -o CMakeFiles/main.dir/parameters.cc.s
+
+CMakeFiles/main.dir/parameters.cc.o.requires:
+
+.PHONY : CMakeFiles/main.dir/parameters.cc.o.requires
+
+CMakeFiles/main.dir/parameters.cc.o.provides: CMakeFiles/main.dir/parameters.cc.o.requires
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/parameters.cc.o.provides.build
+.PHONY : CMakeFiles/main.dir/parameters.cc.o.provides
+
+CMakeFiles/main.dir/parameters.cc.o.provides.build: CMakeFiles/main.dir/parameters.cc.o
+
+
+CMakeFiles/main.dir/equations.cc.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/equations.cc.o: ../equations.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/equations.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/main.dir/equations.cc.o -c /home/abtinameri/Desktop/thesis/burgers/equations.cc
+
+CMakeFiles/main.dir/equations.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/equations.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/abtinameri/Desktop/thesis/burgers/equations.cc > CMakeFiles/main.dir/equations.cc.i
+
+CMakeFiles/main.dir/equations.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/equations.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/abtinameri/Desktop/thesis/burgers/equations.cc -o CMakeFiles/main.dir/equations.cc.s
+
+CMakeFiles/main.dir/equations.cc.o.requires:
+
+.PHONY : CMakeFiles/main.dir/equations.cc.o.requires
+
+CMakeFiles/main.dir/equations.cc.o.provides: CMakeFiles/main.dir/equations.cc.o.requires
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/equations.cc.o.provides.build
+.PHONY : CMakeFiles/main.dir/equations.cc.o.provides
+
+CMakeFiles/main.dir/equations.cc.o.provides.build: CMakeFiles/main.dir/equations.cc.o
+
+
+CMakeFiles/main.dir/problem.cc.o: CMakeFiles/main.dir/flags.make
+CMakeFiles/main.dir/problem.cc.o: ../problem.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/problem.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/main.dir/problem.cc.o -c /home/abtinameri/Desktop/thesis/burgers/problem.cc
+
+CMakeFiles/main.dir/problem.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/main.dir/problem.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/abtinameri/Desktop/thesis/burgers/problem.cc > CMakeFiles/main.dir/problem.cc.i
+
+CMakeFiles/main.dir/problem.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/main.dir/problem.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/abtinameri/Desktop/thesis/burgers/problem.cc -o CMakeFiles/main.dir/problem.cc.s
+
+CMakeFiles/main.dir/problem.cc.o.requires:
+
+.PHONY : CMakeFiles/main.dir/problem.cc.o.requires
+
+CMakeFiles/main.dir/problem.cc.o.provides: CMakeFiles/main.dir/problem.cc.o.requires
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/problem.cc.o.provides.build
+.PHONY : CMakeFiles/main.dir/problem.cc.o.provides
+
+CMakeFiles/main.dir/problem.cc.o.provides.build: CMakeFiles/main.dir/problem.cc.o
+
+
 # Object files for target main
 main_OBJECTS = \
-"CMakeFiles/main.dir/main.cc.o"
+"CMakeFiles/main.dir/main.cc.o" \
+"CMakeFiles/main.dir/util.cc.o" \
+"CMakeFiles/main.dir/parameters.cc.o" \
+"CMakeFiles/main.dir/equations.cc.o" \
+"CMakeFiles/main.dir/problem.cc.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
 main: CMakeFiles/main.dir/main.cc.o
+main: CMakeFiles/main.dir/util.cc.o
+main: CMakeFiles/main.dir/parameters.cc.o
+main: CMakeFiles/main.dir/equations.cc.o
+main: CMakeFiles/main.dir/problem.cc.o
 main: CMakeFiles/main.dir/build.make
 main: /home/abtinameri/deal.II.pre/lib/libdeal_II.g.so.9.0.1
 main: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -101,6 +205,10 @@ CMakeFiles/main.dir/build: main
 .PHONY : CMakeFiles/main.dir/build
 
 CMakeFiles/main.dir/requires: CMakeFiles/main.dir/main.cc.o.requires
+CMakeFiles/main.dir/requires: CMakeFiles/main.dir/util.cc.o.requires
+CMakeFiles/main.dir/requires: CMakeFiles/main.dir/parameters.cc.o.requires
+CMakeFiles/main.dir/requires: CMakeFiles/main.dir/equations.cc.o.requires
+CMakeFiles/main.dir/requires: CMakeFiles/main.dir/problem.cc.o.requires
 
 .PHONY : CMakeFiles/main.dir/requires
 

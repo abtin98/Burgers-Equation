@@ -21,10 +21,10 @@ SET(TARGET_SRC
   util.cc
   parameters.h
   parameters.cc  
-  burgersEquation.h
-  burgersEquation.cc
   equations.h
   equations.cc
+  problem.h
+  problem.cc
   )
 
 # Usually, you will not need to modify anything beyond this point...

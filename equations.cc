@@ -45,3 +45,4 @@ void Equations<dim>::compute_numerical_normal_flux(const Tensor<1,dim>          
 }
 
 template class Equations<1>;
+template class Equations<2>;

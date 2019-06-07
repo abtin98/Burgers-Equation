@@ -3,13 +3,19 @@
 
 #include "util.h"
 #include "equations.h"
+#include "parameters.h"
 
 template <int dim>
 class Problem
 {
 public:
-	Problem();
+	Problem(Parameters parameters);
 	void run();
+
+	const UpdateFlags update_flags = update_values | update_gradients | update_q_points | update_JxW_values,
+					  face_update_flags = update_values | update_q_points | update_JxW_values | update_normal_vectors,
+					  neighbour_face_update_flags = update_values;
+
 private:
 	Triangulation<dim> triangulation;
 	const MappingQ1<dim> mapping;
@@ -29,14 +35,15 @@ private:
 	const QGaussLobatto<dim> quadrature;
 	const QGaussLobatto<dim-1> face_quadrature;
 
-	Parameters parameters;
 	Equations<dim> burgers_equation;
 
 	FEValues<dim> fe_values;
 	FEFaceValues<dim> fe_face_values;
 	FEFaceValues<dim> fe_neighbour_face_values;
 
-	double compute_energy(const Vector<double> &u);
+	Parameters class_parameters;
+
+	//double compute_energy(const Vector<double> &u);
 
 	void initialize_system();
 	void assemble_grid();
@@ -48,6 +55,7 @@ private:
 							const std::vector<types::global_dof_index> &dof_indices,
 							const std::vector<types::global_dof_index> &neighbour_dof_indices);
 	void perform_runge_kutta_45();
+	void output_data(int n_iteration);
 };
 
 #endif
