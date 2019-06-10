@@ -7,7 +7,7 @@ struct Parameters
 {
 public:
 
-	double initial_time{0.0}, final_time{3.0}, delta_t{0.001};
+	double initial_time{0.0}, final_time{3.}, delta_t{0.0001};
 
 	double delta_x{0.1};
 
