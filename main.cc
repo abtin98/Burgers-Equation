@@ -8,7 +8,7 @@ int main ()
    {
 	  //const int dim = 1;
 	  Parameters parameters;
-      Problem<2> problem(parameters);
+      Problem<1> problem(parameters);
 
       problem.run();
    }

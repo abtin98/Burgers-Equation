@@ -11,12 +11,12 @@ public:
 
 	double delta_x{0.1};
 
-	 int n_refinements{3};
+	 int n_refinements{5};
 
 	 double left{0.0};
 	 double right{2.0};
 
-	int polynomial_order_dg{4};
+	int polynomial_order_dg{7};
 
 	int quadrature_degree{8};
 

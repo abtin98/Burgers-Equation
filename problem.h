@@ -56,6 +56,10 @@ private:
 							const std::vector<types::global_dof_index> &neighbour_dof_indices);
 	void perform_runge_kutta_45();
 	void output_data(int n_iteration);
+
+	//debug functions
+	void print_inverse_mass_matrix();
+	void print_stiffness_matrix();
 };
 
 #endif

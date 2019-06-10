@@ -27,6 +27,8 @@ void Problem<dim>::run()
 	assemble_grid();
 	initialize_system();
 	compute_stiffness_and_inverse_mass_matrix();
+	//print_inverse_mass_matrix();
+	//print_stiffness_matrix();
 	perform_runge_kutta_45();
 }
 
@@ -35,7 +37,7 @@ void Problem<dim>::initialize_system()
 {
 	//initial conditions
 	FunctionParser<dim> initial_condition;
-	std::string variables = "x,y";
+	std::string variables = "x";
 	std::map<std::string,double> constants;
 	constants["pi"] = numbers::PI;
 	std::string expression = "sin(pi*x) + 0.01";
@@ -55,10 +57,10 @@ void Problem<dim>::assemble_grid()
 {
 	GridGenerator::hyper_cube(triangulation,class_parameters.left,class_parameters.right, true);
 
-	std::vector<GridTools::PeriodicFacePair<typename Triangulation<dim>::cell_iterator> > matched_pairs; //can do either Triangulation or DoFHandler
-	GridTools::collect_periodic_faces(triangulation, 0, 1, 0, matched_pairs );
-	GridTools::collect_periodic_faces(triangulation, 2, 3, 1, matched_pairs ); // for 2d
-	triangulation.add_periodicity(matched_pairs);
+	//std::vector<GridTools::PeriodicFacePair<typename Triangulation<dim>::cell_iterator> > matched_pairs; //can do either Triangulation or DoFHandler
+	//GridTools::collect_periodic_faces(triangulation, 0, 1, 0, matched_pairs );
+	//GridTools::collect_periodic_faces(triangulation, 2, 3, 1, matched_pairs ); // for 2d
+	//triangulation.add_periodicity(matched_pairs);
 		//DoFTools::make_periodicity_constraints <DoFHandler<dim>> (matched_pairs, );
 
 	triangulation.refine_global(class_parameters.n_refinements);
@@ -287,8 +289,45 @@ void Problem<dim>::output_data(int n_iteration)
 	data_out.attach_dof_handler (dof_handler);
 	data_out.add_data_vector(current_solution, "solution");
 	data_out.build_patches();
-	std::ofstream output ("solution-" + Utilities::int_to_string(n_iteration,4) +".vtk");
-	data_out.write_vtk (output);
+	std::ofstream output ("solution-" + Utilities::int_to_string(n_iteration,4) +".gpl");
+	data_out.write_gnuplot (output);
+}
+
+template <int dim>
+void Problem<dim>::print_inverse_mass_matrix()
+{
+	for (unsigned int cell_no = 0; cell_no < triangulation.n_active_cells(); ++cell_no)
+	{
+		std::cout << "cell number " << cell_no << std::endl;
+		for (unsigned int i = 0; i < fe_values.dofs_per_cell; ++i)
+			{
+				for (unsigned int j = 0 ; j < fe_values.dofs_per_cell; ++j)
+				{
+					std::cout << inverse_mass_matrix[cell_no][i][j] << " ";
+				}
+				std::cout << std::endl;
+			}
+		std::cout << "----------" << std::endl;
+	}
+
+}
+
+template <int dim>
+void Problem<dim>::print_stiffness_matrix()
+{
+	for (unsigned int cell_no = 0; cell_no < triangulation.n_active_cells(); ++cell_no)
+		{
+			std::cout << "cell number " << cell_no << std::endl;
+			for (unsigned int i = 0; i < fe_values.dofs_per_cell; ++i)
+				{
+					for (unsigned int j = 0 ; j < fe_values.dofs_per_cell; ++j)
+					{
+						std::cout << stiffness_matrix[cell_no][0][i][j] << " ";
+					}
+					std::cout << std::endl;
+				}
+			std::cout << "----------" << std::endl;
+		}
 }
 
 //template <int dim>
