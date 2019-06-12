@@ -23,13 +23,13 @@ fe_neighbour_face_values(mapping, fe, face_quadrature, neighbour_face_update_fla
 template<int dim>
 void Problem<dim>::run()
 {
-
 	assemble_grid();
 	initialize_system();
 	compute_stiffness_and_inverse_mass_matrix();
 	//print_inverse_mass_matrix();
 	//print_stiffness_matrix();
 	perform_runge_kutta_45();
+	//print_diff_matrix();
 }
 
 template <int dim>
@@ -40,7 +40,7 @@ void Problem<dim>::initialize_system()
 	std::string variables = "x";
 	std::map<std::string,double> constants;
 	constants["pi"] = numbers::PI;
-	std::string expression = "sin(pi*x) + 0.01";
+	std::string expression = "sin(pi*(x)) + 0.01";
 	initial_condition.initialize(variables,
 	              	  	  	  	 expression,
 								 constants);
@@ -100,7 +100,7 @@ void Problem<dim>::compute_stiffness_and_inverse_mass_matrix()
 					mass_matrix(i,j) += fe_values.shape_value (i, q_index) * fe_values.shape_value (j, q_index) * fe_values.JxW(q_index);
 					for (int component = 0; component < dim; ++component)
 					{
-						stiffness_matrix_cell[component][i][j]+= (double) fe_values.shape_grad(i, q_index)[component] * fe_values.shape_value(j,q_index) * fe_values.JxW(q_index);
+						stiffness_matrix_cell[component][i][j]+= (double) fe_values.shape_grad(j, q_index)[component] * fe_values.shape_value(i,q_index) * fe_values.JxW(q_index);
 					}
 				}
 			}
@@ -111,7 +111,7 @@ void Problem<dim>::compute_stiffness_and_inverse_mass_matrix()
 }
 
 template <int dim>
-void Problem<dim>::diagonalize_U (Vector<double> U, FullMatrix<double> &UMatrix)
+void Problem<dim>::diagonalize_U (Vector<double> &U, FullMatrix<double> &UMatrix)
 {
 	for (unsigned int i = 0; i < U.size(); i++)
 	{
@@ -145,16 +145,16 @@ void Problem<dim>::compute_rhs_vector()
 	{
 
 		fe_values.reinit(cell);
-		cell->get_dof_indices (dof_indices);
+		cell->get_dof_indices (dof_indices); //here the dof_indices come from fe_values
 		int cell_index = cell->index();
 		assemble_cell_term(cell_index, dof_indices);
 		for (unsigned int face_no = 0; face_no < GeometryInfo<dim>::faces_per_cell; ++face_no)
 		{
 			if (!cell->face(face_no)->at_boundary())
 			{
-			fe_face_values.reinit(cell, face_no); //what about the neighbour cell? does it need to be reinit'ed?
+			fe_face_values.reinit(cell, face_no);
 
-			typename DoFHandler<dim>::active_cell_iterator neighbour_cell = cell->neighbor(face_no); //not sure if this variable exists
+			typename DoFHandler<dim>::active_cell_iterator neighbour_cell = cell->neighbor(face_no);
 			neighbour_cell->get_dof_indices(dof_indices_neighbour);
 			int neighbour_cell_index = neighbour_cell->index();
 			fe_neighbour_face_values.reinit(neighbour_cell,(face_no == 1) ? 0 : 1);
@@ -198,6 +198,7 @@ void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::g
 	const unsigned int dofs_per_cell = fe_values.dofs_per_cell;
 	Vector<double> cell_rhs_intermediate (dofs_per_cell), cell_rhs (dofs_per_cell);
 	cell_rhs = 0;
+	cell_rhs_intermediate = 0;
 	std::vector<Vector<double>> flux_vector;
 	flux_vector.resize(dim, Vector<double> (dofs_per_cell));
 
@@ -218,37 +219,88 @@ void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::g
 		}
 	}
 
-	FullMatrix<double> S_transpose (dofs_per_cell,dofs_per_cell);
 	FullMatrix<double> UMatrix (dofs_per_cell,dofs_per_cell);
+	UMatrix = 0;
 
-	Vector<double> int1 (dofs_per_cell), int2 (dofs_per_cell);
+	Vector<double> int1 (dofs_per_cell);
 	int1 = 0;
-	int2 = 0;
 
 	diagonalize_U(U,UMatrix);
 
+//	std::cout << "Cell number " << cell_index << std::endl;
+//		std::cout << "S^T" << std::endl;
+//		for (unsigned int i = 0; i < dofs_per_cell; ++i)
+//		{
+//			for (unsigned int j = 0; j < dofs_per_cell; ++j)
+//			{
+//				std::cout <<  stiffness_matrix[0][0][i][j] << " ";
+//			}
+//			std::cout << std::endl;
+//		}
+
+
+
 	for (unsigned int component = 0; component < dim; ++component)
 	{
-		S_transpose = 0;
-		S_transpose.Tadd(1.0,stiffness_matrix[cell_index][component]);
-		S_transpose.vmult(int1,U,true);
-		stiffness_matrix[cell_index][component].vmult(int2,U,true);
+		stiffness_matrix[cell_index][component].vmult(int1,U, true);
 	}
 
-	int1 -= int2;
+	UMatrix.vmult(cell_rhs_intermediate, int1);
 
-	UMatrix.vmult(cell_rhs_intermediate,int1);
+
+
+//	std::cout << "S" << std::endl;
+//			for (unsigned int i = 0; i < dofs_per_cell; ++i)
+//			{
+//				for (unsigned int j = 0; j < dofs_per_cell; ++j)
+//					{
+//						std::cout << S_transpose(i,j)  << " ";
+//					}
+//				std::cout << std::endl;
+//			}
+//
+//			std::cout << "U" << std::endl;
+//			for (unsigned int i = 0; i < dofs_per_cell; ++i)
+//			{
+//				std::cout << U(i) << std::endl;
+//			}
+//
+//	std::cout << "S * U" << std::endl;
+//			for (unsigned int i = 0; i < dofs_per_cell; ++i)
+//			{
+//				std::cout <<int1(i) << std::endl;
+//			}
+//
+//			std::cout << "S^T * U" << std::endl;
+//						for (unsigned int i = 0; i < dofs_per_cell; ++i)
+//						{
+//							std::cout <<int2(i) << std::endl;
+//						}
+//	std::cout << "S^T * u - S * u" << std::endl;
+//	for (unsigned int  i = 0; i< dofs_per_cell; i++)
+//	{
+//		std::cout << int1(i) << std::endl;
+//	}
+
+	//this whole process needs to be checked.
 
 	for (unsigned int i = 0; i < dofs_per_cell; ++i)
 	{
-		cell_rhs_intermediate(i) = cell_rhs_intermediate(i) *-1./6.;
+		cell_rhs(i) += cell_rhs_intermediate(i)/3.0;
 	}
 
-	inverse_mass_matrix[cell_index].vmult(cell_rhs, cell_rhs_intermediate, true); //first split form of flux added to rhs.
+	//inverse_mass_matrix[cell_index].vmult(cell_rhs, cell_rhs_intermediate, true); //first split form of flux added to rhs.
+
+//	std::cout << "Cell " << cell_index << std::endl;
+//	for (unsigned int i = 0; i< dofs_per_cell; ++i)
+//	{
+//		std::cout << cell_rhs(i) << std::endl;
+//	}
 
 	cell_rhs_intermediate = 0;
 
-	burgers_equation.compute_flux_vector(U,flux_vector);
+	burgers_equation.compute_flux_vector(U,flux_vector); // to be checked
+
 	for (int component = 0; component < dim; ++component)
 	{
 		stiffness_matrix[cell_index][component].vmult(cell_rhs_intermediate, flux_vector[component], true); //S_x * F_x + S_y * F_y + S_z + F_z
@@ -256,18 +308,17 @@ void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::g
 
 	for (unsigned int i = 0; i < dofs_per_cell; ++i)
 	{
-		cell_rhs_intermediate(i) = cell_rhs_intermediate(i)*2./3.; //second split form of flux added to rhs.
+		cell_rhs(i) += (cell_rhs_intermediate(i))* (2.0/3.0); //second split form of flux added to rhs.
 	}
 
-	inverse_mass_matrix[cell_index].vmult(cell_rhs, cell_rhs_intermediate, true);
-
-
-
+	Vector <double> rhs (dofs_per_cell);
+	rhs = 0;
+	inverse_mass_matrix[cell_index].vmult(rhs, cell_rhs, true); //this si where i fucke dup
 
 
 	for (unsigned int i = 0; i < dofs_per_cell; i++)
 	{
-		global_rhs(dof_indices[i]) += cell_rhs(i); //adds everything to global rhs_vector to prepare for time integration.
+		global_rhs(dof_indices[i]) -= rhs(i); //adds everything to global rhs_vector to prepare for time integration.
 	}
 }
 
@@ -336,10 +387,14 @@ void Problem<dim>::assemble_face_term(int cell_index,
 		{
 			normal_flux = 0;
 			burgers_equation.compute_numerical_normal_flux(fe_face_values.normal_vector(q_index),Uplus[q_index],Uminus[q_index],normal_flux); //how to incorporate the arguments here?
-			cell_rhs_intermediate(i) += normal_flux * fe_face_values.shape_value(i,q_index) * fe_face_values.JxW(q_index);
+
+			cell_rhs_intermediate(i) += (normal_flux - fe_face_values.normal_vector(q_index)[0]*(Uplus[q_index]*Uplus[q_index]/2.)) * fe_face_values.shape_value(i,q_index) * fe_face_values.JxW(q_index);
+			//added Uplus in numerical flux for strong form.
 		}
 	}
 
+//	std::cout << "numerical flux is " << normal_flux << std::endl;
+//
 //	std::cout << "cel_rhs for cell number " << cell_index << " face number" << face_no << " is" << std::endl;
 //	for (unsigned int i = 0; i < dofs_per_cell; ++i)
 //	{
@@ -365,24 +420,39 @@ void Problem<dim>::perform_runge_kutta_45()
 
 	for (int n_iteration = 0; n_iteration < (class_parameters.final_time - class_parameters.initial_time)/class_parameters.delta_t ; ++n_iteration)
 	{
-		std::cout << "---------------------" << std::endl
-				  << "current iteration #" << n_iteration << std::endl
-				  << "number of active cells: " << triangulation.n_active_cells() << std::endl
-				  << "number of total degrees of freedom: " << dof_handler.n_dofs() << std:: endl
-				  << "dofs per cell: " << fe_values.dofs_per_cell << std::endl
-				  << "--------------------" << std::endl;
+//		std::cout << "---------------------" << std::endl
+//				  << "current iteration #" << n_iteration << std::endl
+//				  << "number of active cells: " << triangulation.n_active_cells() << std::endl
+//				  << "number of total degrees of freedom: " << dof_handler.n_dofs() << std:: endl
+//				  << "dofs per cell: " << fe_values.dofs_per_cell << std::endl
+//				  << "--------------------" << std::endl;
 
-		if (n_iteration % 10 == 0 && n_iteration > 3000 && n_iteration < 4000)
+		if (n_iteration % 100 == 0) //&& n_iteration > 3000 && n_iteration < 4000)
 					output_data(n_iteration);
+		global_rhs = 0;
 		compute_rhs_vector();
+		Vector<double> v1 (dof_handler.n_dofs()), v2 (dof_handler.n_dofs()), u(dof_handler.n_dofs());
+		u = current_solution;
+		//old_solution = current_solution;
+		v1 = 0;
+		v1 += u;
+		global_rhs *= class_parameters.delta_t;
+		v1 += global_rhs;
+
+		current_solution = v1;
+		global_rhs = 0;
+		compute_rhs_vector();
+
+//		for (unsigned int i = 0; i<dof_handler.n_dofs(); ++i)
+//		{
+//			current_solution(i) = 1./2. * (u(i) + v1(i) + class_parameters.delta_t * global_rhs(i));
+//		}
+
 		old_solution = current_solution;
+
 
 		//for (unsigned int i = 0; i < global_rhs.size(); i++)
 			//global_rhs(i) = global_rhs(i) * parameters.delta_t;
-
-		global_rhs *= class_parameters.delta_t;
-		old_solution += global_rhs;
-		current_solution = old_solution;
 
 
 		//current_solution = old_solution + global_rhs;
@@ -398,6 +468,13 @@ void Problem<dim>::output_data(int n_iteration)
 	data_out.build_patches();
 	std::ofstream output ("solution-" + Utilities::int_to_string(n_iteration,4) +".gpl");
 	data_out.write_gnuplot (output);
+
+//	std::cout << "iteration " << n_iteration << std::endl;
+//	std::cout << "----------" << std::endl;
+//	for (unsigned int i = 0 ; i< dof_handler.n_dofs(); ++i)
+//	{
+//		std::cout << current_solution(i) << std::endl;
+//	}
 }
 
 template <int dim>
@@ -435,6 +512,23 @@ void Problem<dim>::print_stiffness_matrix()
 				}
 			std::cout << "----------" << std::endl;
 		}
+}
+
+template <int dim>
+void Problem<dim>::print_diff_matrix()
+{
+	FullMatrix<double> D(fe_values.dofs_per_cell,fe_values.dofs_per_cell);
+	inverse_mass_matrix[0].mmult(D,stiffness_matrix[0][0]);
+	for (unsigned int i = 0; i < fe_values.dofs_per_cell; ++i)
+					{
+						for (unsigned int j = 0 ; j < fe_values.dofs_per_cell; ++j)
+						{
+							std::cout << D(i,j) << " ";
+						}
+						std::cout << std::endl;
+					}
+				std::cout << "----------" << std::endl;
+
 }
 
 //template <int dim>
