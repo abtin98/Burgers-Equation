@@ -43,7 +43,8 @@ private:
 
 	Parameters class_parameters;
 
-	//double compute_energy(const Vector<double> &u);
+	double compute_energy();
+
 
 	void initialize_system();
 	void assemble_grid();

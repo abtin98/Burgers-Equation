@@ -16,11 +16,11 @@ public:
 	 double left{0.};
 	 double right{2.};
 
-	int polynomial_order_dg{2};
+	int polynomial_order_dg{7};
 
-	int quadrature_degree{3};
+	int quadrature_degree{8};
 
-	int face_quadrature_degree{3};
+	int face_quadrature_degree{8};
 };
 
 #endif

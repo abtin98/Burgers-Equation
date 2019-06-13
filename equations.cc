@@ -39,20 +39,20 @@ void Equations<dim>::compute_numerical_normal_flux(const Tensor<1,dim>          
 
 		for (unsigned int i = 0; i < dim; ++i)
 		{
-			normal_flux += (1./4. * ((Uplus * Uplus) + (Uminus * Uminus)) -  1./12. * (Uplus - Uminus)*(Uplus - Uminus) * normal[i]) * normal[i];
+			normal_flux += (1./4. * ((Uplus * Uplus) + (Uminus * Uminus)) - 1./12. * std::fabs(Uplus - Uminus)*(Uplus - Uminus)) * normal[i];
 		}
 		break;
 
 	case osher:
 		for (unsigned int i = 0; i < dim; ++i)
 		{
-			if (Uplus > 0 && Uminus > 0)
+			if (Uplus < 0 && Uminus < 0)
 				normal_flux += Uplus*Uplus/2. * normal[i];
-			else if (Uplus < 0 && Uminus < 0)
+			else if (Uplus > 0 && Uminus > 0)
 				normal_flux += Uminus*Uminus/2. * normal[i];
-			else if (Uplus >= 0 && Uminus <= 0)
-				normal_flux += (Uplus*Uplus + Uminus*Uminus)/2. * normal[i];
-			else if (Uplus <= 0 && Uminus >= 0 )
+			else if (Uplus <= 0 && Uminus >= 0)
+				normal_flux += (Uplus*Uplus + Uminus*Uminus)/2. ;
+			else if (Uplus >= 0 && Uminus <= 0 )
 				normal_flux += 0.0 * normal[i];
 
 		}

@@ -248,58 +248,14 @@ void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::g
 	UMatrix.vmult(cell_rhs_intermediate, int1);
 
 
-
-//	std::cout << "S" << std::endl;
-//			for (unsigned int i = 0; i < dofs_per_cell; ++i)
-//			{
-//				for (unsigned int j = 0; j < dofs_per_cell; ++j)
-//					{
-//						std::cout << S_transpose(i,j)  << " ";
-//					}
-//				std::cout << std::endl;
-//			}
-//
-//			std::cout << "U" << std::endl;
-//			for (unsigned int i = 0; i < dofs_per_cell; ++i)
-//			{
-//				std::cout << U(i) << std::endl;
-//			}
-//
-//	std::cout << "S * U" << std::endl;
-//			for (unsigned int i = 0; i < dofs_per_cell; ++i)
-//			{
-//				std::cout <<int1(i) << std::endl;
-//			}
-//
-//			std::cout << "S^T * U" << std::endl;
-//						for (unsigned int i = 0; i < dofs_per_cell; ++i)
-//						{
-//							std::cout <<int2(i) << std::endl;
-//						}
-//	std::cout << "S^T * u - S * u" << std::endl;
-//	for (unsigned int  i = 0; i< dofs_per_cell; i++)
-//	{
-//		std::cout << int1(i) << std::endl;
-//	}
-
-	//this whole process needs to be checked.
-
 	for (unsigned int i = 0; i < dofs_per_cell; ++i)
 	{
 		cell_rhs(i) += cell_rhs_intermediate(i)/3.0;
 	}
 
-	//inverse_mass_matrix[cell_index].vmult(cell_rhs, cell_rhs_intermediate, true); //first split form of flux added to rhs.
-
-//	std::cout << "Cell " << cell_index << std::endl;
-//	for (unsigned int i = 0; i< dofs_per_cell; ++i)
-//	{
-//		std::cout << cell_rhs(i) << std::endl;
-//	}
-
 	cell_rhs_intermediate = 0;
 
-	burgers_equation.compute_flux_vector(U,flux_vector); // to be checked
+	burgers_equation.compute_flux_vector(U,flux_vector);
 
 	for (int component = 0; component < dim; ++component)
 	{
@@ -313,7 +269,7 @@ void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::g
 
 	Vector <double> rhs (dofs_per_cell);
 	rhs = 0;
-	inverse_mass_matrix[cell_index].vmult(rhs, cell_rhs, true); //this si where i fucke dup
+	inverse_mass_matrix[cell_index].vmult(rhs, cell_rhs, true);
 
 
 	for (unsigned int i = 0; i < dofs_per_cell; i++)
@@ -363,24 +319,6 @@ void Problem<dim>::assemble_face_term(int cell_index,
 		}
 	}
 
-//	std::cout << "Uminus is " <<std::endl;
-//	for (unsigned int i = 0; i < n_q_points; ++i)
-//	{
-//		std::cout << Uminus[i] << std::endl;
-//	}
-//	std::cout << "Uplus is" << std::endl;
-//	for (unsigned int i = 0; i < n_q_points; ++i)
-//	{
-//		std::cout << Uplus[i] << std::endl;
-//	}
-
-
-
-//	std::cout << "cell number " <<cell_index << std::endl;
-//	std::cout<< "Uplus: " <<std::endl;
-//	std::cout << Uplus[dofs_per_cell-1] << std::endl;
-//	std::cout << "Uminus " << std::endl;
-//	std::cout << Uminus[0] << std::endl;
 	for (unsigned int q_index = 0; q_index < n_q_points; ++q_index)
 	{
 		for (unsigned int i = 0 ; i < dofs_per_cell; ++i)
@@ -393,14 +331,6 @@ void Problem<dim>::assemble_face_term(int cell_index,
 		}
 	}
 
-//	std::cout << "numerical flux is " << normal_flux << std::endl;
-//
-//	std::cout << "cel_rhs for cell number " << cell_index << " face number" << face_no << " is" << std::endl;
-//	for (unsigned int i = 0; i < dofs_per_cell; ++i)
-//	{
-//		std::cout << cell_rhs_intermediate(i) << std::endl;
-//	}
-
 	inverse_mass_matrix[cell_index].vmult(cell_rhs, cell_rhs_intermediate);
 	for (unsigned int i = 0; i < dofs_per_cell; ++i)
 	{
@@ -408,15 +338,10 @@ void Problem<dim>::assemble_face_term(int cell_index,
 	}
 }
 
-
-/*
- * Not sure how to do the whole indexing for assembling face and cell terms... should I have one big global matrix + vector?...
- * How to propagate the assemble_face_term info from each face to the cell_rhs vector properly without causing interference?
- */
-
 template<int dim>
 void Problem<dim>::perform_runge_kutta_45()
 {
+	std::ofstream myfile ("energy_llf.gpl" , std::ios::trunc);
 
 	for (int n_iteration = 0; n_iteration < (class_parameters.final_time - class_parameters.initial_time)/class_parameters.delta_t ; ++n_iteration)
 	{
@@ -441,14 +366,21 @@ void Problem<dim>::perform_runge_kutta_45()
 
 		current_solution = v1;
 		global_rhs = 0;
+
+
+
 		compute_rhs_vector();
 
-//		for (unsigned int i = 0; i<dof_handler.n_dofs(); ++i)
-//		{
-//			current_solution(i) = 1./2. * (u(i) + v1(i) + class_parameters.delta_t * global_rhs(i));
-//		}
+		for (unsigned int i = 0; i<dof_handler.n_dofs(); ++i)
+		{
+			current_solution(i) = 1./2. * (u(i) + v1(i) + class_parameters.delta_t * global_rhs(i));
+		}
 
 		old_solution = current_solution;
+
+		double energy = compute_energy();
+
+		myfile << n_iteration * class_parameters.delta_t << " " << energy << std::endl;
 
 
 		//for (unsigned int i = 0; i < global_rhs.size(); i++)
@@ -457,6 +389,7 @@ void Problem<dim>::perform_runge_kutta_45()
 
 		//current_solution = old_solution + global_rhs;
 	}
+	myfile.close();
 }
 
 template<int dim>
@@ -531,19 +464,50 @@ void Problem<dim>::print_diff_matrix()
 
 }
 
-//template <int dim>
-//double Problem<dim>::compute_energy(const Vector<double> &u) //need to loop over cells, current function won't work.
-//{
-//	Vector<double> product;
-//	double energy {0};
-//	//mass_matrix.vmult(product, u);
-//
-//	for (int i = 0; i < u.size(); ++i)
-//	{
-//		energy += product[i]*u[i];
-//	}
-//	return energy;
-//}
+template <int dim>
+double Problem<dim>::compute_energy() //need to loop over cells, current function won't work.
+{
+	const unsigned int n_q_points = fe_values.n_quadrature_points;
+	const unsigned int dofs_per_cell = fe_values.dofs_per_cell;
+
+	std::vector<types::global_dof_index> dof_indices(dofs_per_cell);
+	double E = 0;
+
+	typename DoFHandler<dim>::active_cell_iterator
+	cell = dof_handler.begin_active(),
+	endc = dof_handler.end();
+
+	for (; cell != endc; ++cell)
+	{
+		fe_values.reinit(cell);
+		cell->get_dof_indices (dof_indices);
+		int cell_index = cell->index();
+		std::vector<double> independent_local_dof_values;
+			independent_local_dof_values.resize(dofs_per_cell);
+			Vector<double> U (dofs_per_cell);
+			U = 0;
+
+			for (unsigned int i = 0; i< dofs_per_cell; ++i)
+			{
+				independent_local_dof_values[i] = current_solution(dof_indices[i]);
+			}
+
+			for (unsigned int q_index = 0; q_index < n_q_points; ++q_index)
+			{
+				for (unsigned int i = 0; i < dofs_per_cell; ++i)
+				{
+					U(i) += independent_local_dof_values[i] * fe_values.shape_value(i,q_index);
+				}
+			}
+		for (unsigned int i = 0 ; i< dofs_per_cell; ++i)
+		{
+			E += U(i) * U(i) * 1./inverse_mass_matrix[cell_index][i][i];
+		}
+	}
+
+
+	return E;
+}
 
 template class Problem<1>;
 template class Problem<2>;
