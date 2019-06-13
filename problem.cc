@@ -222,8 +222,9 @@ void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::g
 	FullMatrix<double> UMatrix (dofs_per_cell,dofs_per_cell);
 	UMatrix = 0;
 
-	Vector<double> int1 (dofs_per_cell);
+	Vector<double> int1 (dofs_per_cell), int2 (dofs_per_cell);
 	int1 = 0;
+	int2 = 0;
 
 	diagonalize_U(U,UMatrix);
 
@@ -243,14 +244,21 @@ void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::g
 	for (unsigned int component = 0; component < dim; ++component)
 	{
 		stiffness_matrix[cell_index][component].vmult(int1,U, true);
+		stiffness_matrix[cell_index][component].Tvmult(int2, U, true);
 	}
+
+	for (unsigned int i = 0; i < dofs_per_cell; ++i)
+	{
+		int1(i) = int1(i) -  int2(i);
+	}
+
 
 	UMatrix.vmult(cell_rhs_intermediate, int1);
 
 
 	for (unsigned int i = 0; i < dofs_per_cell; ++i)
 	{
-		cell_rhs(i) += cell_rhs_intermediate(i)/3.0;
+		cell_rhs(i) += cell_rhs_intermediate(i)/6.0 ;
 	}
 
 	cell_rhs_intermediate = 0;
@@ -259,18 +267,17 @@ void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::g
 
 	for (int component = 0; component < dim; ++component)
 	{
-		stiffness_matrix[cell_index][component].vmult(cell_rhs_intermediate, flux_vector[component], true); //S_x * F_x + S_y * F_y + S_z + F_z
+		stiffness_matrix[cell_index][component].Tvmult(cell_rhs_intermediate, flux_vector[component], true); //S_x * F_x + S_y * F_y + S_z + F_z
 	}
 
 	for (unsigned int i = 0; i < dofs_per_cell; ++i)
 	{
-		cell_rhs(i) += (cell_rhs_intermediate(i))* (2.0/3.0); //second split form of flux added to rhs.
+		cell_rhs(i) -= (cell_rhs_intermediate(i))* 2.0/3.0; //second split form of flux added to rhs.
 	}
 
 	Vector <double> rhs (dofs_per_cell);
 	rhs = 0;
 	inverse_mass_matrix[cell_index].vmult(rhs, cell_rhs, true);
-
 
 	for (unsigned int i = 0; i < dofs_per_cell; i++)
 	{
@@ -326,7 +333,7 @@ void Problem<dim>::assemble_face_term(int cell_index,
 			normal_flux = 0;
 			burgers_equation.compute_numerical_normal_flux(fe_face_values.normal_vector(q_index),Uplus[q_index],Uminus[q_index],normal_flux); //how to incorporate the arguments here?
 
-			cell_rhs_intermediate(i) += (normal_flux - fe_face_values.normal_vector(q_index)[0]*(Uplus[q_index]*Uplus[q_index]/2.)) * fe_face_values.shape_value(i,q_index) * fe_face_values.JxW(q_index);
+			cell_rhs_intermediate(i) += normal_flux * fe_face_values.shape_value(i,q_index) * fe_face_values.JxW(q_index);
 			//added Uplus in numerical flux for strong form.
 		}
 	}
