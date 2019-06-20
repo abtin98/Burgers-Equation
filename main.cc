@@ -6,10 +6,8 @@ int main ()
 {
   try
    {
-	  //const int dim = 1;
-	  Parameters parameters;
-      Problem<1> problem(parameters);
-
+      Parameters parameters;
+      Problem<1> problem(parameters); //we feed the parameters to the Problem 
       problem.run();
    }
   catch (std::exception &exc)

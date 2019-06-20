@@ -4,26 +4,22 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/abtinameri/Desktop/thesis/burgers/equations.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/equations.cc.o"
-  "/home/abtinameri/Desktop/thesis/burgers/main.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/main.cc.o"
-  "/home/abtinameri/Desktop/thesis/burgers/parameters.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/parameters.cc.o"
-  "/home/abtinameri/Desktop/thesis/burgers/problem.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/problem.cc.o"
-  "/home/abtinameri/Desktop/thesis/burgers/util.cc" "/home/abtinameri/Desktop/thesis/burgers/build/CMakeFiles/main.dir/util.cc.o"
+  "/home/aameri2/projects/rrg-nadaraja-ac/aameri2/Burgers-Equation/equations.cc" "/home/aameri2/projects/rrg-nadaraja-ac/aameri2/Burgers-Equation/build/CMakeFiles/main.dir/equations.cc.o"
+  "/home/aameri2/projects/rrg-nadaraja-ac/aameri2/Burgers-Equation/main.cc" "/home/aameri2/projects/rrg-nadaraja-ac/aameri2/Burgers-Equation/build/CMakeFiles/main.dir/main.cc.o"
+  "/home/aameri2/projects/rrg-nadaraja-ac/aameri2/Burgers-Equation/parameters.cc" "/home/aameri2/projects/rrg-nadaraja-ac/aameri2/Burgers-Equation/build/CMakeFiles/main.dir/parameters.cc.o"
+  "/home/aameri2/projects/rrg-nadaraja-ac/aameri2/Burgers-Equation/problem.cc" "/home/aameri2/projects/rrg-nadaraja-ac/aameri2/Burgers-Equation/build/CMakeFiles/main.dir/problem.cc.o"
+  "/home/aameri2/projects/rrg-nadaraja-ac/aameri2/Burgers-Equation/util.cc" "/home/aameri2/projects/rrg-nadaraja-ac/aameri2/Burgers-Equation/build/CMakeFiles/main.dir/util.cc.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
-
-# Preprocessor definitions for this target.
-set(CMAKE_TARGET_DEFINITIONS_CXX
-  "BOOST_NO_AUTO_PTR"
-  "DEBUG"
-  "TBB_DO_ASSERT=1"
-  "TBB_USE_DEBUG"
-  )
+set(CMAKE_CXX_COMPILER_ID "Intel")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/home/abtinameri/deal.II.pre/include"
-  "/home/abtinameri/deal.II.pre/include/deal.II/bundled"
+  "/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/MPI/intel2018.3/openmpi3.1/dealii/8.5.0/include"
+  "/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/MPI/intel2018.3/openmpi3.1/dealii/8.5.0/include/deal.II/bundled"
+  "/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/Compiler/intel2018.3/openmpi/3.1.2/include"
+  "/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/MPI/intel2018.3/openmpi3.1/trilinos/12.10.1/include"
+  "/cvmfs/soft.computecanada.ca/easybuild/software/2017/Core/imkl/2018.3.222/mkl/include"
+  "/cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/MPI/intel2018.3/openmpi3.1/p4est/1.1/include"
   )
 
 # Targets to which this target links.

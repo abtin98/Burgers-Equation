@@ -9,12 +9,12 @@ template <int dim>
 class Problem
 {
 public:
-	Problem(Parameters parameters);
+	Problem(Parameters parameters); //constructor that takes in the parameters. There's no default constructor for this class
 	void run();
 
 	const UpdateFlags update_flags = update_values | update_gradients | update_q_points | update_JxW_values,
 					  face_update_flags = update_values | update_q_points | update_JxW_values | update_normal_vectors,
-					  neighbour_face_update_flags = update_values;
+					  neighbour_face_update_flags = update_values; //these are values that will be updated as we loop through cells, faces, and neighbours of cells.
 
 private:
 	Triangulation<dim> triangulation;
@@ -33,7 +33,7 @@ private:
 	DoFHandler<dim> dof_handler;
 
 	const QGaussLobatto<dim> quadrature;
-	const QGaussLobatto<dim-1> face_quadrature;
+	const QGaussLobatto<dim-1> face_quadrature; //we use gauss-lobatto quadrature because the nodes are also gauss-lobatto, resulting in a diagonal mass matrix.
 
 	Equations<dim> burgers_equation;
 

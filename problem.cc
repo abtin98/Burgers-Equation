@@ -4,7 +4,6 @@
 template <int dim>
 Problem<dim>::Problem(Parameters parameters)
 :
-//parameters(),
 mapping(),
 fe (parameters.polynomial_order_dg),
 dof_handler(triangulation),
@@ -14,22 +13,16 @@ fe_values(mapping, fe, quadrature, update_flags),
 fe_face_values(mapping, fe, face_quadrature, face_update_flags),
 fe_neighbour_face_values(mapping, fe, face_quadrature, neighbour_face_update_flags)
 {
-	//fe_values = new FEValues<dim> (mapping, fe, quadrature, update_flags);
-	//fe_face_values = new FEFaceValues<dim> (mapping, fe, face_quadrature, face_update_flags);
-	//fe_neighbour_face_values = new FEFaceValues<dim> (mapping, fe, face_quadrature, neighbour_face_update_flags);
 	class_parameters = parameters;
 }
 
 template<int dim>
-void Problem<dim>::run()
+void Problem<dim>::run() //this function puts everything together.
 {
 	assemble_grid();
 	initialize_system();
 	compute_stiffness_and_inverse_mass_matrix();
-	//print_inverse_mass_matrix();
-	//print_stiffness_matrix();
 	perform_runge_kutta_45();
-	//print_diff_matrix();
 }
 
 template <int dim>
@@ -40,11 +33,11 @@ void Problem<dim>::initialize_system()
 	std::string variables = "x";
 	std::map<std::string,double> constants;
 	constants["pi"] = numbers::PI;
-	std::string expression = "sin(pi*(x)) + 0.01";
+	std::string expression = "sin(pi*(x)) + 0.01"; //same function that gassner and ranocha use as well
 	initial_condition.initialize(variables,
 	              	  	  	  	 expression,
 								 constants);
-	current_solution.reinit(dof_handler.n_dofs());
+	current_solution.reinit(dof_handler.n_dofs()); //resize the solution vectors to the number of degrees of freedom.
 	old_solution.reinit(dof_handler.n_dofs());
 	global_rhs.reinit(dof_handler.n_dofs());
 	VectorTools::interpolate(mapping, dof_handler, initial_condition, current_solution);
@@ -55,13 +48,12 @@ void Problem<dim>::initialize_system()
 template<int dim>
 void Problem<dim>::assemble_grid()
 {
-	GridGenerator::hyper_cube(triangulation,class_parameters.left,class_parameters.right, true);
+	GridGenerator::hyper_cube(triangulation,class_parameters.left,class_parameters.right, true); //makes a hypercube of dim-dimensions
 
 	//std::vector<GridTools::PeriodicFacePair<typename Triangulation<dim>::cell_iterator> > matched_pairs; //can do either Triangulation or DoFHandler
 	//GridTools::collect_periodic_faces(triangulation, 0, 1, 0, matched_pairs );
 	//GridTools::collect_periodic_faces(triangulation, 2, 3, 1, matched_pairs ); // for 2d
 	//triangulation.add_periodicity(matched_pairs);
-		//DoFTools::make_periodicity_constraints <DoFHandler<dim>> (matched_pairs, );
 
 	triangulation.refine_global(class_parameters.n_refinements);
 	std::cout << "number of active cells: " << triangulation.n_active_cells() << std::endl;
@@ -70,7 +62,7 @@ void Problem<dim>::assemble_grid()
 }
 
 template <int dim>
-void Problem<dim>::compute_stiffness_and_inverse_mass_matrix()
+void Problem<dim>::compute_stiffness_and_inverse_mass_matrix() //this function computes and stores the needed matrices only once.
 {
 	const unsigned int dofs_per_cell = fe.dofs_per_cell;
 	const unsigned int n_cell_q_points = quadrature.size();
@@ -78,9 +70,9 @@ void Problem<dim>::compute_stiffness_and_inverse_mass_matrix()
 
 	typename DoFHandler<dim>::active_cell_iterator
 	cell = dof_handler.begin_active(),
-	endc = dof_handler.end();
+	endc = dof_handler.end(); //these are for looping through the cells.
 
-	for (; cell != endc; ++cell)
+	for (; cell != endc; ++cell) //we now loop over the cells, quadrature points, and degrees of freedom to assemble the mass and stiffness matrices cell by cell.
 	{
 		fe_values.reinit(cell);
 		int cell_index = cell->index();
@@ -123,14 +115,7 @@ void Problem<dim>::diagonalize_U (Vector<double> &U, FullMatrix<double> &UMatrix
 template<int dim>
 void Problem<dim>::compute_rhs_vector()
 {
-
-	//transferred from Problem<dim>::assemble_system. need to pass arguments to assemble_system.
 	const unsigned int dofs_per_cell = fe.dofs_per_cell;
-
-	//const unsigned int n_cell_q_points = quadrature.size();
-	//const unsigned int n_face_q_points = face_quadrature.size();
-	//assemble_face_term();
-	//assemble_cell_term();
 
 	std::vector<types::global_dof_index> dof_indices(dofs_per_cell);
 	std::vector<types::global_dof_index> dof_indices_neighbour(dofs_per_cell);
@@ -138,9 +123,7 @@ void Problem<dim>::compute_rhs_vector()
 	typename DoFHandler<dim>::active_cell_iterator
 	cell = dof_handler.begin_active(),
 	endc = dof_handler.end();
-
-
-
+	//we loop over the cells, quadrature points and degrees of freedom and assemble the cell and face contributions to the rhs
 	for (; cell != endc; ++cell)
 	{
 
@@ -150,7 +133,7 @@ void Problem<dim>::compute_rhs_vector()
 		assemble_cell_term(cell_index, dof_indices);
 		for (unsigned int face_no = 0; face_no < GeometryInfo<dim>::faces_per_cell; ++face_no)
 		{
-			if (!cell->face(face_no)->at_boundary())
+			if (!cell->face(face_no)->at_boundary()) //internal face
 			{
 			fe_face_values.reinit(cell, face_no);
 
@@ -161,7 +144,7 @@ void Problem<dim>::compute_rhs_vector()
 			assemble_face_term(cell_index, face_no,dof_indices, dof_indices_neighbour);
 			}
 
-			else //if we're dealing with boundary conditions.
+			else //if we're dealing with boundaries, we set the periodic boundary conditions
 			{
 				if (cell_index == 0 && face_no == 0)
 				{
@@ -182,7 +165,7 @@ void Problem<dim>::compute_rhs_vector()
 					typename DoFHandler<dim>::active_cell_iterator neighbour_cell = dof_handler.begin_active();
 					neighbour_cell->get_dof_indices(dof_indices_neighbour);
 					int neighbour_cell_index = neighbour_cell->index();
-					fe_neighbour_face_values.reinit(neighbour_cell,(face_no == 1) ? 0 : 1); //not sure how changing the face number would work in dim!=1-dimensions.
+					fe_neighbour_face_values.reinit(neighbour_cell,(face_no == 1) ? 0 : 1); 
 				}
 
 				assemble_face_term(cell_index,face_no,dof_indices,dof_indices_neighbour);
@@ -192,7 +175,8 @@ void Problem<dim>::compute_rhs_vector()
 }
 
 template<int dim>
-void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::global_dof_index> &dof_indices) //are these local or global dofs?
+void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::global_dof_index> &dof_indices) //This function calculates the volume integrals in DG
+	//in other words, it calculates -1/3 * S^T * f(u) + 1/6 * (U * (S - S^T) * u), which is the weak form of Burgers' split form. 
 {
 	const unsigned int n_q_points = fe_values.n_quadrature_points;
 	const unsigned int dofs_per_cell = fe_values.dofs_per_cell;
@@ -227,19 +211,6 @@ void Problem<dim>::assemble_cell_term(int cell_index, const std::vector<types::g
 	int2 = 0;
 
 	diagonalize_U(U,UMatrix);
-
-//	std::cout << "Cell number " << cell_index << std::endl;
-//		std::cout << "S^T" << std::endl;
-//		for (unsigned int i = 0; i < dofs_per_cell; ++i)
-//		{
-//			for (unsigned int j = 0; j < dofs_per_cell; ++j)
-//			{
-//				std::cout <<  stiffness_matrix[0][0][i][j] << " ";
-//			}
-//			std::cout << std::endl;
-//		}
-
-
 
 	for (unsigned int component = 0; component < dim; ++component)
 	{
@@ -289,13 +260,12 @@ template<int dim>
 void Problem<dim>::assemble_face_term(int cell_index,
 									  const unsigned int          face_no,
 									  const std::vector<types::global_dof_index> &dof_indices,
-									  const std::vector<types::global_dof_index> &neighbour_dof_indices ) //where does face_no come in????
+									  const std::vector<types::global_dof_index> &neighbour_dof_indices )
+       //this function calculates the surface integrals involving the numerical flux.	
 {
 
 	const unsigned int n_q_points = fe_face_values.n_quadrature_points;
 	const unsigned int dofs_per_cell = fe_face_values.dofs_per_cell;
-
-	//std::cout << "there are " << dofs_per_cell << " dofs per face and " << n_q_points << " quadrature points" << std::endl;
 
 	Vector<double> cell_rhs_intermediate (dofs_per_cell), cell_rhs (dofs_per_cell);
 	cell_rhs = 0;
@@ -313,7 +283,7 @@ void Problem<dim>::assemble_face_term(int cell_index,
 
 	for (unsigned int i = 0; i < dofs_per_cell; ++i)
 	{
-		independent_local_dof_values[i] = current_solution(dof_indices[i]); //or should it be old solution?
+		independent_local_dof_values[i] = current_solution(dof_indices[i]); 
 		independent_neighbour_dof_values[i] = current_solution(neighbour_dof_indices[i]);
 	}
 
@@ -331,7 +301,7 @@ void Problem<dim>::assemble_face_term(int cell_index,
 		for (unsigned int i = 0 ; i < dofs_per_cell; ++i)
 		{
 			normal_flux = 0;
-			burgers_equation.compute_numerical_normal_flux(fe_face_values.normal_vector(q_index),Uplus[q_index],Uminus[q_index],normal_flux); //how to incorporate the arguments here?
+			burgers_equation.compute_numerical_normal_flux(fe_face_values.normal_vector(q_index),Uplus[q_index],Uminus[q_index],normal_flux); 
 
 			cell_rhs_intermediate(i) += normal_flux * fe_face_values.shape_value(i,q_index) * fe_face_values.JxW(q_index);
 			//added Uplus in numerical flux for strong form.
@@ -346,7 +316,7 @@ void Problem<dim>::assemble_face_term(int cell_index,
 }
 
 template<int dim>
-void Problem<dim>::perform_runge_kutta_45()
+void Problem<dim>::perform_runge_kutta_45() //this function does the time integration and outputs solution files and an energy plot at the end.
 {
 	std::ofstream myfile ("energy_llf.gpl" , std::ios::trunc);
 
@@ -359,7 +329,7 @@ void Problem<dim>::perform_runge_kutta_45()
 //				  << "dofs per cell: " << fe_values.dofs_per_cell << std::endl
 //				  << "--------------------" << std::endl;
 
-		if (n_iteration % 100 == 0) //&& n_iteration > 3000 && n_iteration < 4000)
+		if (n_iteration % 100 == 0) //output data every 100 iterations. this number can be changed
 					output_data(n_iteration);
 		global_rhs = 0;
 		compute_rhs_vector();
@@ -388,13 +358,6 @@ void Problem<dim>::perform_runge_kutta_45()
 		double energy = compute_energy();
 
 		myfile << n_iteration * class_parameters.delta_t << " " << energy << std::endl;
-
-
-		//for (unsigned int i = 0; i < global_rhs.size(); i++)
-			//global_rhs(i) = global_rhs(i) * parameters.delta_t;
-
-
-		//current_solution = old_solution + global_rhs;
 	}
 	myfile.close();
 }
@@ -416,6 +379,9 @@ void Problem<dim>::output_data(int n_iteration)
 //		std::cout << current_solution(i) << std::endl;
 //	}
 }
+
+
+//debug functions from here on.
 
 template <int dim>
 void Problem<dim>::print_inverse_mass_matrix()

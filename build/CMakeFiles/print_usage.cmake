@@ -1,17 +1,15 @@
 MESSAGE(
 "###
 #
-#  Project  main  set up with  deal.II-9.0.1  found at
-#      /home/abtinameri/deal.II.pre
+#  Project  main  set up with  deal.II-8.5.0  found at
+#      /cvmfs/soft.computecanada.ca/easybuild/software/2017/avx512/MPI/intel2018.3/openmpi3.1/dealii/8.5.0
 #
-#  CMAKE_BUILD_TYPE:          Debug
+#  CMAKE_BUILD_TYPE:          Release
 #
 #  You can now run
 #       $ make                - to compile and link the program
 #       $ make run            - to (compile, link and) run the program
 #
-#       $ make debug          - to switch the build type to 'Debug'
-#       $ make release        - to switch the build type to 'Release'
 #
 #       $ make edit_cache     - to change (cached) configuration variables
 #                               and rerun the configure and generate phases of CMake

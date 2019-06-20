@@ -1,6 +1,7 @@
 #ifndef UTIL
 #define UTIL
 
+//This file includes all the deal.II and stdlib headers needed
 #include <deal.II/base/quadrature_lib.h>
 #include <deal.II/base/function.h>
 #include <deal.II/base/parameter_handler.h>
@@ -23,7 +24,6 @@
 #include <deal.II/fe/fe_values.h>
 #include <deal.II/fe/fe_system.h>
 #include <deal.II/fe/mapping_q1.h>
-//#include <deal.II/fe/mapping_q.h>
 #include <deal.II/fe/fe_dgq.h>
 #include <deal.II/numerics/data_out.h>
 #include <deal.II/numerics/vector_tools.h>
